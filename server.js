@@ -1,9 +1,14 @@
 const express = require('express')
 const app = express()
 require('dotenv').config()
+const morgan = require('morgan')
+
 
 const categoryRoute = require('./routes/categoryRoute')
 
+
+//middleware
+app.use(morgan('dev'))
 //routes
 app.use('/api', categoryRoute)
 

@@ -48,3 +48,19 @@ exports.updateCategory = async(req,res)=>{
     }
     res.send(category)
 }
+
+//delete category\
+exports.deleteCategory = (req,res)=>{
+    Category.findByIdAndDelete(req.param.id)
+    .then(category=>{
+        if(!category){
+            return res.status(404).json({error:'category with that id not found'})
+        }
+        else{
+            return res.status(200).json({message:'category deleted'})
+        }
+    })
+    .catch(err=>{
+        return res.status(400).json({error:err})
+    })
+}

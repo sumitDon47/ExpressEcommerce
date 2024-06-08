@@ -11,4 +11,4 @@ const categorySchema = new mongoose.Schema({
 //created at
 //updated at
 
-module.exports = mongoose.Model('Category', categorySchema)
+module.exports = mongoose.model('Category', categorySchema)

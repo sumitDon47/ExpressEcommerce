@@ -1,8 +1,8 @@
-const mongoose = requirer('mongoose')
+const mongoose = require('mongoose')
 const {ObjectId} = mongoose.Schema
 
 //object is used t link data between different collection (table)
-const productSchema = new mongoose.Shema({
+const productSchema = new mongoose.Schema({
     product_name:{
         type:String,
         required:true,

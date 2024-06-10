@@ -1,4 +1,4 @@
-const Product = rewuire('../models/productModel')
+const Product = require('../models/productModel')
 
 //to post/insert product
 exports.postProduct = async(req, res) => {

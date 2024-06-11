@@ -10,7 +10,7 @@ exports.postCategory = async(req,res)=>{
         category_name:req.body.category_name
     })
     //to check if data already exists in database
-    Category.findOne({category_name:category,catetgory_name})
+    Category.findOne({category_name:category.category_name})
     .then(async categories=>{
         if(categories){
             return res.status(400).json({error:'category must be unique'})
@@ -60,7 +60,7 @@ exports.updateCategory = async(req,res)=>{
     res.send(category)
 }
 
-//delete category\
+//delete category
 exports.deleteCategory = (req,res)=>{
     Category.findByIdAndDelete(req.param.id)
     .then(category=>{

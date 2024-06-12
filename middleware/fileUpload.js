@@ -2,8 +2,8 @@ const multer = require('multer')
 const fs = require('fs')  //file system help to find directory
 const path = require('path')
 
-const storage = multer.diskStorage({
-    destination:(req,file,cb)=>{
+const storage = multer.diskStorage({  //kaha store garne chinauney 
+    destination:(req,file,cb)=>{  //cb= call back function
         let fileDestination = 'public/uploads/'
         //check if directory exist 
         if(!fs.existsSync(fileDestination)){
@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
         //abc
         let ext = path.extname(file.originalname)
         //.jpg
-        cb(null, filename+'_'+DataTransfer.now()+ext)
+        cb(null,filename+'_'+Date.now()+ext)
     }
 })
 
@@ -42,4 +42,3 @@ const upload = multer({
 })
 
 module.exports = upload
-

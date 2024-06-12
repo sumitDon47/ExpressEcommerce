@@ -10,17 +10,20 @@ exports.productValidation=[
     .isLength({min:3}).withMessage('product name must be of at least 3 characters'),
 
     check('product_price','price is required').notEmpty()
-    .isNumeric().withMessage('price must be a numeric'),
+    .isNumeric().withMessage('price must be a numeric value'),
+
     check('countInStock','stock is required').notEmpty()
-    .isNumeric().withMessage('price must be a numeric'),
-    check('prodct_description','description is required').notEmpty()
+    .isNumeric().withMessage('stock must be a numeric value'),
+
+    check('product_description','description is required').notEmpty()
     .isLength({min:20}).withMessage('Description muct be at least of 20 charactres or more'),
+
     check('category','category is required').notEmpty()
 ]
 
 exports.validation = (req,res,next)=>{
     const errors = validationResult(req)
-    if(errors.isEmpty){
+    if(errors.isEmpty()){
         next()
     }
     else{

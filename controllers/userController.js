@@ -4,8 +4,8 @@ const User = require('../models/userModel')
 exports.postUser = async(req,res)=>{
     let user = new User({
         name:req.body.name,
-        email:req,body,email,
-        password:req.bosy.password
+        email:req.body.email,
+        password:req.body.password
     })
     user = await user.save()
     if(!user){

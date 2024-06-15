@@ -9,4 +9,15 @@ const sentEmail = options=>{
           pass: process.env.SMTP_PASS
         }
       });
+
+      const mailOptions = {
+        from:options.from,
+        to:options.to,
+        subject:options.subject,
+        text:options.text,
+        html:options.html
+      }
+      transport.sendMail(mailOptions)
 }
+
+module.exports = sentEmail

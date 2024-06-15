@@ -94,3 +94,27 @@ exports.postEmailConfirmation = (req, res) => {
       return res.status(400).json({ error: err });
     });
 };
+
+//sign in process
+
+exports.signIn = async (req, res) => {
+  const { email, password } = req.body;
+  //at fist check if email is registered in the system or not
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res.status(503).json({
+      error:
+        "sorry the email you provides is not found in our system, register first or try another",
+    });
+  }
+
+  //if email found then check the password for that email
+  if (!user.authenticate(password)) {
+    return res.status(400).json({ error: "email and password doesnot match" });
+  }
+  //check if user is verified or not
+  if (!user.isVerified) {
+    return res.status(400).json({ error: "verify email first to continue" });
+  }
+  res.send(user);
+};

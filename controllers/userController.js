@@ -124,3 +124,31 @@ exports.signIn = async (req, res) => {
   const { _id, name, role } = user;
   return res.json({ token, user: { name, role, email, _id } });
 };
+
+//forget password
+
+exports.forgetPassword = async (req, res) => {
+  const user = await User.findOne({ email: req.body.email })
+  if (!user) {
+    return res.status(403).json({
+      error: "Sorry, the email you provided is not found in our system. Please register first or try another."
+    })
+  }
+  let token = new Token({
+    token: crypto.randomBytes(16).toString("hex"),
+    userId: user._id,
+  });
+  token = await token.save()
+  if (!token) {
+    return res.status(400).json({ error: 'Failed to create a token' });
+  }
+  // send email process
+  sendEmail({
+    from: "no-reply@ecommerce.com",
+    to: user.email,
+    subject: "password Reset link",
+    text: `Hello,\n\nPlease reset your password by clicking on the link below:\n\nhttp://${req.headers.host}/api/resetpassword/${token.token}`,
+    //http://localhost:8000/api/resetpassword/45678
+  });
+  res.json({ message: 'password reset link has been sent successfully' })
+}

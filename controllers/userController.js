@@ -152,3 +152,52 @@ exports.forgetPassword = async (req, res) => {
   });
   res.json({ message: 'password reset link has been sent successfully' })
 }
+
+//reset password
+exports.resetPassword = async (req, res) => {
+  //find the valid token
+  let token = await Token.findOne({ token: req.params.token })
+  if (!token) {
+    return res.status(400).json({ error: 'Invalid token or token may have expired' })
+
+  }
+
+  //if we found valid token then find the valid user for that token 
+  let user = await User.findOne({ _id: token.userId })
+  if (!user) {
+    return res.status(400).json({ error: 'we are unbale to find the valid user for this token' })
+  }
+
+  //reset the password 
+  user.password = req.body.password
+  user = await user.save()
+  if (!user) {
+    return res.status(500).json({ error: 'failed to reset password' }
+
+    )
+    res.json({ message: 'password has been reset successfully, login to continue' })
+  }
+
+}
+
+//user list
+exports.userList = async (req, res) => {
+  const user = await User.find()
+    .select('-hashed_password') //yo na dekauna ko lagiii
+    .select('-salt')
+  if (!user) {
+    return res.status(400).json({ error: 'something went wrong' })
+  }
+  res.send(user)
+}
+
+//user details
+exports.userDetails = async (req, res) => {
+  const user = await User.findById(req.params.id)
+    .select('-hashed_password') //yo na dekauna ko lagiii
+    .select('-salt')
+  if (!user) {
+    return res.status(400).json({ error: 'something went wrong' })
+  }
+  res.send(user)
+}

@@ -6,7 +6,9 @@ const {
     forgetPassword,
     resetPassword,
     userList,
-    userDetails
+    userDetails,
+    signOut,
+    requireSignin
 } = require("../controllers/userController");
 const router = express.Router();
 
@@ -15,7 +17,8 @@ router.put("/confirmation/:token", postEmailConfirmation);
 router.post('/signin', signIn);
 router.post('/forgetpassword', forgetPassword)
 router.put('/resetpassword/:token', resetPassword)
-router.get('/userlist', userList)
-router.get('/userdetails/:id', userDetails)
+router.get('/userlist', requireSignin, userList)
+router.get('/userdetails/:id', requireSignin, userDetails)
+router.post('/signout', signOut)
 
 module.exports = router;

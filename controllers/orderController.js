@@ -23,4 +23,23 @@ exports.postOrder = async (req, res) => {
         //[400,1000,300]
     }))
     const TotalPrice = totalAmount.reduce((a, b) => a + b, 0)
+
+    let order = new OrderItem({
+        orderItem: orderItemIdsResolved,
+        shippingAddress1: req.body.shippingAddress1,
+        shippingAddress2: req.body.shippingAddress2,
+        city: req.body.city,
+        zip: req.body.zip,
+        country: req.body.country,
+        phone: req.body.phone,
+        totalPrice: TotalPrice,
+        user: req.body.user
+    })
+
+    order = await orderItemIdsResolved.save()
+    if (!order) {
+        return res.status(400).json({ error: 'something went wrong' })
+
+    }
+    res.send(order)
 }

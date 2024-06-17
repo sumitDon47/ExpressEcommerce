@@ -43,3 +43,14 @@ exports.postOrder = async (req, res) => {
     }
     res.send(order)
 }
+
+//ORDER LIST
+exports.orderList = async (req, res) => {
+    const order = await Order.find()
+        .populate('user', 'name')
+        .sort({ createdAt: -1 })
+    if (!order) {
+        return res.status(400).json({ error: 'something went wrong' })
+    }
+    res.send(order)
+}

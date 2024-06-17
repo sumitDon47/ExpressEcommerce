@@ -54,3 +54,18 @@ exports.orderList = async (req, res) => {
     }
     res.send(order)
 }
+
+//order details
+exports.orderDetails = async (req, res) => {
+    const order = await Order.findById(req.params.id)
+        .populate('user', 'name')
+        .populate({
+            path: 'orderItem', populate: {
+                path: 'product', populate: 'category'
+            }
+        })
+    if (!order) {
+        return res.status(400).json({ error: 'something went wrong' })
+    }
+    res.send(order)
+}

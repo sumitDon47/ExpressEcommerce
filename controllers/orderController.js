@@ -1,22 +1,22 @@
-const orderItemModel = require('../models/order-itemModel')
+const OrderItemModel = require('../models/order-itemModel')
 const OrderItem = require('../models/order-itemModel')
-const order = require('../models/orderModel')
+const Order = require('../models/orderModel')
 
 //post order
 exports.postOrder = async (req, res) => {
     const orderItemIds = Promise.all(req.body.orderItems.map(async orderItem => {
-        let.newOrderItem = new OrderItem({
+        let newOrderItem = new OrderItem({
             quantity: orderItem.quantity,
-            product: orderItem.id
+            product: orderItem.product
         })
         newOrderItem = await newOrderItem.save()
-        return newOrderItem_id
+        return newOrderItem
     }))
     const orderItemIdsResolved = await orderItemIds
 
     //CALCULATING TOTAL PRICE
-    const totalAmount = await Prmoise.all(orderItemIdsResolved.map(async orderId => {
-        const itemOrder = await OrderItem.findById(orderId).populate('product', 'price')
+    const totalAmount = await Promise.all(orderItemIdsResolved.map(async orderId => {
+        const itemOrder = await OrderItem.findById(orderId).populate('product', 'product_price')
         const total = itemOrder.quantity * itemOrder.product.product_price
         return total
 
@@ -24,8 +24,8 @@ exports.postOrder = async (req, res) => {
     }))
     const TotalPrice = totalAmount.reduce((a, b) => a + b, 0)
 
-    let order = new OrderItem({
-        orderItem: orderItemIdsResolved,
+    let order = new Order({
+        orderItems: orderItemIdsResolved,
         shippingAddress1: req.body.shippingAddress1,
         shippingAddress2: req.body.shippingAddress2,
         city: req.body.city,
@@ -36,7 +36,7 @@ exports.postOrder = async (req, res) => {
         user: req.body.user
     })
 
-    order = await orderItemIdsResolved.save()
+    order = await order.save()
     if (!order) {
         return res.status(400).json({ error: 'something went wrong' })
 

@@ -8,6 +8,7 @@ const bodyParser = require('body-parser')
 const categoryRoute = require('./routes/categoryRoute')
 const productRoute = require('./routes/productRoute')
 const userRoute = require('./routes/userRoute')
+const orderRoute = require('./routes/orderRoute')
 
 //middleware
 app.use(morgan('dev'))
@@ -18,9 +19,10 @@ app.use('/public/uploads', express.static('public/uploads'))
 app.use('/api', categoryRoute)
 app.use('/api', productRoute)
 app.use('/api', userRoute)
+app.use('/api', orderRoute)
 
 const port = process.env.PORT || 5000
-app.listen(port, ()=>{
+app.listen(port, () => {
     console.log(`Server started on port ${port}`)
 })
 

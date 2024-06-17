@@ -4,7 +4,7 @@ const { ObjectId } = mongoose.Schema
 const orderSchema = new mongoose.Schema({
     orderItems: [{
         type: ObjectId,
-        require: true,
+        required: true,
         ref: 'OrderItem'
     }],
     shippingAddress1: {
@@ -28,7 +28,7 @@ const orderSchema = new mongoose.Schema({
     },
     phone: {
         type: String,
-        required: 'Pending'
+        required: true
     },
     status: {
         type: String,
@@ -47,4 +47,4 @@ const orderSchema = new mongoose.Schema({
     }
 }, { timestamps: true })
 
-module.exports = mongoose.model('Order', orderItemSchema)
+module.exports = mongoose.model('Order', orderSchema)

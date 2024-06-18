@@ -10,11 +10,13 @@ const productRoute = require('./routes/productRoute')
 const userRoute = require('./routes/userRoute')
 const orderRoute = require('./routes/orderRoute')
 const paymentRoute = require('./routes/paymentRoute')
+const cors = require('cors')
 
 //middleware
 app.use(morgan('dev'))
 app.use(bodyParser.json()) //to read the json data
 app.use('/public/uploads', express.static('public/uploads'))
+app.use(cors())
 
 //routes
 app.use('/api', categoryRoute)
